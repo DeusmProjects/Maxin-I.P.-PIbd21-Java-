@@ -1,35 +1,8 @@
 import java.awt.*;
 import java.util.Set;
 
-class WarShip {
-	private int _startPosX;
-	private int _startPosY;
-	private int _pictureWidth;
-	private int _pictureHeight;
-	private int shipWidth = 100;
-	private int shipHeight = 60;
-	private int MaxSpeed;
-	public int getMaxSpeed(){
-		return MaxSpeed;
-	}
-	public void setWeight(int s){
-		MaxSpeed = s;
-	}	
-	private float Weight;
-	public float getWeight(){
-		return Weight;
-	}	
-	public void setWeight(float w){
-		Weight = w;
-	}	
+class WarShip extends Cruiser {
 	
-	private Color MainColor;
-	public Color getMainColor(){
-		return MainColor;
-	}
-	public void setMainColor(Color mc){
-		MainColor = mc;
-	}	
 	private Color DopColor;
 	public Color getDopColor(){
 		return DopColor;
@@ -58,9 +31,7 @@ class WarShip {
 	}
 
 	public WarShip(int maxSpeed, float weight, Color mainColor, Color dopColor, boolean flag, boolean gun) {
-		MaxSpeed = maxSpeed;
-		Weight = weight;
-		MainColor = mainColor;
+		super(maxSpeed, weight, mainColor);
 		DopColor = dopColor;
 		Flag = flag;
 		Gun = gun;
@@ -100,35 +71,8 @@ class WarShip {
 	}
 
 	public void DrawShip(Graphics g) {
-        //корпус
-		g.setColor(MainColor);
+		super.DrawShip(g);
 		Color blacPen = new Color(0,0,0);
-        
-        int[] arrayX = { (int) _startPosX, (int) _startPosX + 170, (int) _startPosX + 100, (int) _startPosX + 30 };
-		int[] arrayY = { (int) _startPosY + 50, (int) _startPosY + 50, (int) _startPosY + 90, (int) _startPosY + 90 };
-		
-		Polygon poly = new Polygon(arrayX, arrayY, 4);
-        g.fillPolygon(poly);
-        g.drawPolygon(poly);
-
-        //линии на корпусе
-        g.setColor(blacPen);
-        g.drawLine(_startPosX + 6, _startPosY + 57, _startPosX + 154, _startPosY + 57);
-        g.drawLine(_startPosX + 26, _startPosY + 83, _startPosX + 110, _startPosY + 83);
-
-        //мачта   
-        g.setColor(blacPen);
-        g.drawLine( _startPosX + 70, _startPosY + 50, _startPosX + 70, _startPosY);
-        g.drawLine( _startPosX + 65, _startPosY + 5, _startPosX + 75, _startPosY + 5);
-        g.drawLine( _startPosX + 55, _startPosY + 15, _startPosX + 85, _startPosY + 15);
-        g.drawLine( _startPosX + 45, _startPosY + 25, _startPosX + 95, _startPosY + 25);
-
-        //иллюминаторы
-        Color c = new Color(94,190,235);
-        g.setColor(c);
-        g.fillOval(_startPosX + 40, _startPosY + 62, 15, 15);
-        g.fillOval( _startPosX + 65, _startPosY + 62, 15, 15);
-        g.fillOval(_startPosX + 90, _startPosY + 62, 15, 15);
         
         //флаг
         if (Flag)

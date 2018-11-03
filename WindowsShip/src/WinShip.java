@@ -16,7 +16,8 @@ public class WinShip {
 	private JButton buttonDown;
 	private JButton buttonLeft;
 	private JButton buttonRight;
-	private JButton buttonCreate;
+	private JButton buttonCreateWar;
+	private JButton buttonCreateCruiser;
 
 	/**
 	 * Launch the application.
@@ -106,31 +107,35 @@ public class WinShip {
 			}
 		});
 		buttonUp.setIcon(null);
-		buttonCreate = new JButton("Создать");
-		buttonCreate.setBounds(10, 11, 98, 29);
-		panel.add(buttonCreate);
-		buttonCreate.addActionListener(new ActionListener() {
+		
+		buttonCreateWar = new JButton("Создать военный корабль");
+		buttonCreateWar.setBounds(10, 11, 198, 29);
+		panel.add(buttonCreateWar);
+		buttonCreateWar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Random rnd = new Random();
 				PanelShip.ship = new WarShip(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.GRAY, Color.BLUE, true, true);
+				PanelShip.initialization = true;
+				PanelShip.ship.SetPosition(rnd.nextInt(90) + 40, rnd.nextInt(90) + 40, panel.getWidth(), panel.getHeight());
+				RedrawUI();
+			}
+		});
+		
+		buttonCreateCruiser = new JButton("Создать крейсер");
+		buttonCreateCruiser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Random rnd = new Random();
+				PanelShip.ship = new Cruiser(rnd.nextInt(200) + 100, rnd.nextInt(1000) + 1000, Color.GRAY);
 				PanelShip.initialization = true;
 				PanelShip.ship.SetPosition(rnd.nextInt(90) + 10, rnd.nextInt(90) + 10, panel.getWidth(), panel.getHeight());
 				RedrawUI();
 			}
 		});
+		buttonCreateCruiser.setBounds(220, 11, 198, 29);
+		panel.add(buttonCreateCruiser);
 	}
 
 	private void RedrawUI() {
 		panel.updateUI();
-		buttonCreate.setEnabled(false);
-		buttonCreate.setEnabled(true);
-		buttonUp.setEnabled(false);
-		buttonUp.setEnabled(true);
-		buttonDown.setEnabled(false);
-		buttonDown.setEnabled(true);
-		buttonLeft.setEnabled(false);
-		buttonLeft.setEnabled(true);
-		buttonRight.setEnabled(false);
-		buttonRight.setEnabled(true);
 	}
 }

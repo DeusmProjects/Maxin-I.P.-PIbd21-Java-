@@ -3,7 +3,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 public class PanelShip extends JPanel{
-	public static WarShip ship;
+	public static ITransport ship;
 	public static boolean initialization = false;
 	
 	@Override 
