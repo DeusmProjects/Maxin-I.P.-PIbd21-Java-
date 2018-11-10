@@ -1,23 +1,34 @@
 import java.awt.Graphics;
 
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 public class PanelDock extends JPanel {
-	private Dock<ITransport> dock;
+	private MultiDocks dock;
+	private JList listBoxDocks;
+	private final int countDocks = 5;
 
-    public Dock<ITransport> getDock() {
+    public MultiDocks getDock() {
         return dock;
     }
 
     public PanelDock() {
-        dock = new Dock<>(10, 615, 603);
+        dock = new MultiDocks(countDocks, 615, 603);
+    }
+    
+    public void setListDocks(JList listBoxDocks) {
+    	this.listBoxDocks = listBoxDocks;
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if(dock != null) {
-			dock.draw(g);
-		}
+        int selectedDock = listBoxDocks.getSelectedIndex();
+        dock.getDock(selectedDock).draw(g);
+        if(selectedDock != -1) {
+	        if(dock != null) {
+				dock.getDock(selectedDock).draw(g);
+			}
+        }
     }
 }

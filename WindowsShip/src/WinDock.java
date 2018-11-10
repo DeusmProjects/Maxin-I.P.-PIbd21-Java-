@@ -2,21 +2,28 @@ import java.awt.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class WinDock {
 
 	private JFrame frame;
 	private JTextField textFieldPlace;
-	Dock<ITransport> dock; 
+	MultiDocks dock; 
 	private PanelDock panelDock;
 	private PanelShip panelTakeShip;
+	private JList listBoxDocks;
+	private DefaultListModel model;
+	private final int countDocks = 5;
 
 	/**
 	 * Launch the application.
@@ -61,12 +68,13 @@ public class WinDock {
 			public void actionPerformed(ActionEvent e) {
 				Color mainColor = JColorChooser.showDialog(null, "Choose a color", Color.GRAY);
 				Cruiser ship = new Cruiser(100, 1000, mainColor);
-				int place = dock.addShip(ship);			
-				//RedrawUI();
-				panelDock.repaint();
+				int place = dock.getDock(listBoxDocks.getSelectedIndex()).addShip(ship);			
+				if(place != -1){
+					panelDock.repaint();
+				}
 			}
 		});
-		buttonParkingCruiser.setBounds(731, 65, 89, 23);
+		buttonParkingCruiser.setBounds(800, 65, 89, 23);
 		frame.getContentPane().add(buttonParkingCruiser);
 		
 		JButton buttonParkingWar = new JButton("\u0412\u043E\u0435\u043D\u043D\u044B\u0439");
@@ -75,12 +83,13 @@ public class WinDock {
 				Color mainColor = JColorChooser.showDialog(null, "Choose a color", Color.GRAY);
 				Color dopColor = JColorChooser.showDialog(null, "Choose a color", Color.GRAY);
 				WarShip ship = new WarShip(100, 1000, mainColor, dopColor, true, true);
-				int place = dock.addShip(ship);			
-				//RedrawUI();
-				panelDock.repaint();
+				int place = dock.getDock(listBoxDocks.getSelectedIndex()).addShip(ship);			
+				if(place != -1){
+					panelDock.repaint();
+				}
 			}
 		});
-		buttonParkingWar.setBounds(731, 102, 89, 23);
+		buttonParkingWar.setBounds(800, 102, 89, 23);
 		frame.getContentPane().add(buttonParkingWar);
 		
 		JLabel labelTake = new JLabel("\u0417\u0430\u0431\u0440\u0430\u0442\u044C");
@@ -90,6 +99,7 @@ public class WinDock {
 		JLabel labelPlace = new JLabel("\u041C\u0435\u0441\u0442\u043E");
 		labelPlace.setBounds(716, 174, 46, 14);
 		frame.getContentPane().add(labelPlace);
+			
 		
 		textFieldPlace = new JTextField();
 		textFieldPlace.setBounds(772, 174, 38, 20);
@@ -104,7 +114,7 @@ public class WinDock {
 		buttonTake.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!textFieldPlace.getText().equals("")) {
-                    ITransport ship = dock.removeShip(Integer.parseInt(textFieldPlace.getText()));
+                    ITransport ship = dock.getDock(listBoxDocks.getSelectedIndex()).removeShip(Integer.parseInt(textFieldPlace.getText()));
                     if (ship != null) {
                         ship.SetPosition(5, 5, panelTakeShip.getWidth(), panelTakeShip.getHeight());
                         panelTakeShip.setShip(ship);
@@ -119,6 +129,26 @@ public class WinDock {
 		});
 		buttonTake.setBounds(731, 221, 89, 23);
 		frame.getContentPane().add(buttonTake);
+		
+		listBoxDocks = new JList(); 
+		listBoxDocks.setBounds(660, 20, 118, 118); 
+		frame.getContentPane().add(listBoxDocks);
+		
+		model = new DefaultListModel();
+		for(int i = 0; i < countDocks; i++) {
+			model.addElement("Док " + (i+1));
+		}
+		listBoxDocks.setModel(model); 
+		listBoxDocks.setSelectedIndex(0); 
+		panelDock.setListDocks(listBoxDocks);
+		
+		listBoxDocks.addListSelectionListener(new ListSelectionListener() { 
+			@Override 
+			public void valueChanged(ListSelectionEvent e) { 
+				panelDock.repaint(); 
+			} 
+		});
+		
 	}
 	private void RedrawUI() {
 		panelDock.updateUI();
