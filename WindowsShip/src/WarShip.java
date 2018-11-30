@@ -29,10 +29,40 @@ class WarShip extends Cruiser {
 	public void setGun(boolean g){
 		Gun = g;
 	}
+	
+	public void setDopColor(String colorName) {
+        switch (colorName) {
+            case "yellow":
+            	DopColor = Color.YELLOW;
+                break;
+            case "blue":
+            	DopColor = Color.BLUE;
+                break;
+            case "red":
+            	DopColor = Color.RED;
+                break;
+            case "green":
+            	DopColor = Color.GREEN;
+                break;
+            case "black":
+            	DopColor = Color.BLACK;
+                break;
+            case "orange":
+            	DopColor = Color.ORANGE;
+                break;
+            case "grey":
+            	DopColor = Color.GRAY;
+                break;
+            case "white":
+            	DopColor = Color.WHITE;
+                break;
+        }
+
+    }
 
 	public WarShip(int maxSpeed, float weight, Color mainColor, Color dopColor, boolean flag, boolean gun) {
 		super(maxSpeed, weight, mainColor);
-		DopColor = dopColor;
+		setDopColor(dopColor);
 		Flag = flag;
 		Gun = gun;
 	}

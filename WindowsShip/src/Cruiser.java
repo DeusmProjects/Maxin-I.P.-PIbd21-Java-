@@ -6,9 +6,9 @@ public class Cruiser extends Ship{
 	
 	public Cruiser(int maxSpeed, float weight, Color mainColor)
     {
-        MaxSpeed = maxSpeed;
-        Weight = weight;
-        MainColor = mainColor;
+		setMaxSpeed(maxSpeed);
+        setWeight(weight);
+        setMainColor(mainColor);
     }
 	
 	@Override

@@ -63,34 +63,22 @@ public class WinDock {
 		
 		dock = panelDock.getDock();
 		
-		JButton buttonParkingCruiser = new JButton("\u041A\u0440\u0435\u0439\u0441\u0435\u0440");
-		buttonParkingCruiser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Color mainColor = JColorChooser.showDialog(null, "Choose a color", Color.GRAY);
-				Cruiser ship = new Cruiser(100, 1000, mainColor);
-				int place = dock.getDock(listBoxDocks.getSelectedIndex()).addShip(ship);			
-				if(place != -1){
-					panelDock.repaint();
-				}
-			}
-		});
-		buttonParkingCruiser.setBounds(800, 65, 89, 23);
-		frame.getContentPane().add(buttonParkingCruiser);
-		
-		JButton buttonParkingWar = new JButton("\u0412\u043E\u0435\u043D\u043D\u044B\u0439");
-		buttonParkingWar.addActionListener(new ActionListener() {
+		JButton buttonSetShip = new JButton("Заказать корабль");
+		buttonSetShip.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Color mainColor = JColorChooser.showDialog(null, "Choose a color", Color.GRAY);
-				Color dopColor = JColorChooser.showDialog(null, "Choose a color", Color.GRAY);
-				WarShip ship = new WarShip(100, 1000, mainColor, dopColor, true, true);
-				int place = dock.getDock(listBoxDocks.getSelectedIndex()).addShip(ship);			
-				if(place != -1){
-					panelDock.repaint();
-				}
+				if (listBoxDocks.getSelectedIndex() > -1) {
+                    DialogConfig dConfig = new DialogConfig(frame);
+                    if (dConfig.isSuccessful()) {
+                    	PanelTakeDock.ship = dConfig.getShip();
+                        int i = dock.getDock(listBoxDocks.getSelectedIndex()).addShip(PanelTakeDock.ship);
+                        panelDock.repaint();
+                    }
+                }
 			}
 		});
-		buttonParkingWar.setBounds(800, 102, 89, 23);
-		frame.getContentPane().add(buttonParkingWar);
+		buttonSetShip.setBounds(720, 290,  150, 50);
+		frame.getContentPane().add(buttonSetShip);
+		
 		
 		JLabel labelTake = new JLabel("\u0417\u0430\u0431\u0440\u0430\u0442\u044C");
 		labelTake.setBounds(754, 149, 78, 14);
