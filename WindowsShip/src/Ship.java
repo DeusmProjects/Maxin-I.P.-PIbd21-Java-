@@ -1,4 +1,4 @@
-import java.awt.*;
+	import java.awt.*;
 
 public abstract class Ship implements ITransport{
 	protected int _startPosX;
@@ -29,6 +29,37 @@ public abstract class Ship implements ITransport{
 	public void setMainColor(Color mc){
 		MainColor = mc;
 	}	
+	
+	@Override
+	public void setMainColor(String colorName){
+		switch (colorName) {
+        case "yellow":
+            MainColor = Color.YELLOW;
+            break;
+        case "blue":
+        	MainColor = Color.BLUE;
+            break;
+        case "pink":
+        	MainColor = Color.PINK;
+            break;
+        case "green":
+        	MainColor = Color.GREEN;
+            break;
+        case "black":
+        	MainColor = Color.BLACK;
+            break;
+        case "orange":
+        	MainColor = Color.ORANGE;
+            break;
+        case "cyan":
+        	MainColor = Color.CYAN;
+            break;
+        case "magenta":
+        	MainColor = Color.MAGENTA;
+            break;
+		}
+
+	}
 	
 	public void SetPosition(int x, int y, int width, int height)
     {
