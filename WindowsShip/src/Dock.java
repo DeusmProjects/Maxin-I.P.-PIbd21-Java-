@@ -2,7 +2,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.sun.javafx.collections.MappingChange.Map;
 public class Dock<T extends ITransport> {
 	private HashMap<Integer, T> places;
 	
@@ -98,6 +97,21 @@ public class Dock<T extends ITransport> {
     			g.drawLine(i * placeSizeWidth + 368, j * placeSizeHeight, i * placeSizeWidth + 600, j * placeSizeHeight);
     		}
     		g.drawLine(i * placeSizeWidth + 600, 0, i * placeSizeWidth + 600, 600);
+    	}
+    }
+    
+    public T getShip(int index) {
+    	if (places.get(index) != null) {
+			return places.get(index);
+		} else {
+			return null;
+		}
+    }
+    
+    public void setShip(int index, T ship) {
+    	if(checkFreePlace(index)) {
+    		places.put(index, ship);
+    		places.get(index).SetPosition(5 + index / 5 * placeSizeWidth + 5, index % 5 * placeSizeHeight + 15, PictureWidth, PictureHeight);
     	}
     }
 }

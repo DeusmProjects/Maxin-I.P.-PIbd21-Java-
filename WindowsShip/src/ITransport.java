@@ -5,4 +5,5 @@ public interface ITransport {
     void MoveTransport(Direction direction);
     void DrawShip(Graphics g);
     void setMainColor(String colorName);
+    String getInfo();
 }
