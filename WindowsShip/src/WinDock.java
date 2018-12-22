@@ -1,13 +1,17 @@
+package lab7;
 import java.awt.*;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.FileHandler;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
-
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
+ 
 public class WinDock {
 
 	private JFrame frame;
@@ -18,6 +22,8 @@ public class WinDock {
 	private JList listBoxDocks;
 	private DefaultListModel model;
 	private final int countDocks = 5;
+	FileHandler fh;	
+	Logger logger = Logger.getLogger(WinDock.class.getName());
 
 	/**
 	 * Launch the application.
@@ -45,11 +51,22 @@ public class WinDock {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize() {	
 		frame = new JFrame();
 		frame.setBounds(100, 100, 927, 677);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
+		try {
+			fh = new FileHandler("D:/logger.txt");
+			logger.addHandler(fh);
+			SimpleFormatter formatter = new SimpleFormatter();
+			fh.setFormatter(formatter);
+		} catch (SecurityException ex){
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -66,11 +83,12 @@ public class WinDock {
 				if (filesave.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 					File file = filesave.getSelectedFile();
 					String path = file.getAbsolutePath();
-					if (dock.saveData(path)) {
+					try {
+						dock.saveData(path);
 						JOptionPane.showMessageDialog(null, "Saved");
-						return;
-					} else {
-						JOptionPane.showMessageDialog(null, "Save failed", "", 0, null);
+						logger.info("Сохранено в файл " + file.getName());
+					} catch(Exception ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage(), "Неизвестная ошибка при сохранении", 0, null);
 					}
 				}
 			}
@@ -86,13 +104,13 @@ public class WinDock {
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					File file = fileChooser.getSelectedFile();
 					try {
-						if (dock.loadData(file.getAbsolutePath())) {
-							JOptionPane.showMessageDialog(null, "Loaded");
-						} else {
-							JOptionPane.showMessageDialog(null, "Load failed", "", 0, null);
-						}
+						dock.loadData(file.getAbsolutePath());
+						JOptionPane.showMessageDialog(null, "Loaded");
+						logger.info("Загружено из файла " + file.getName());
+					} catch (DockOccupiedPlaceException ex) {
+						JOptionPane.showMessageDialog(null, "Занято место", ex.getMessage(), JOptionPane.ERROR_MESSAGE);
 					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(null, ex.getMessage(), "", 0, null);
+						JOptionPane.showMessageDialog(null,ex.getMessage(), "Неизвестная ошибка при загрузке", 0, null);
 					}
 					panelDock.repaint();
 				}
@@ -111,12 +129,19 @@ public class WinDock {
 		buttonSetShip.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (listBoxDocks.getSelectedIndex() > -1) {
-                    DialogConfig dConfig = new DialogConfig(frame);
-                    if (dConfig.isSuccessful()) {
-                    	PanelTakeDock.ship = dConfig.getShip();
-                        int i = dock.getDock(listBoxDocks.getSelectedIndex()).addShip(PanelTakeDock.ship);
-                        panelDock.repaint();
-                    }
+					try {
+	                    DialogConfig dConfig = new DialogConfig(frame);
+	                    if (dConfig.isSuccessful()) {
+	                    	PanelTakeDock.ship = dConfig.getShip();
+	                        int i = dock.getDock(listBoxDocks.getSelectedIndex()).addShip(PanelTakeDock.ship);
+	                        logger.info("Добавлен корабль " + PanelTakeDock.ship.getInfo() + " на место " + i);
+	                        panelDock.repaint();
+	                    }
+					} catch (DockOverflowException ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage(), "Переполнение", JOptionPane.ERROR_MESSAGE);
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage(), "Неизвестная ошибка", JOptionPane.ERROR_MESSAGE);
+					}
                 }
 			}
 		});
@@ -145,16 +170,20 @@ public class WinDock {
 		JButton buttonTake = new JButton("\u0417\u0430\u0431\u0440\u0430\u0442\u044C");
 		buttonTake.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!textFieldPlace.getText().equals("")) {
-                    ITransport ship = dock.getDock(listBoxDocks.getSelectedIndex()).removeShip(Integer.parseInt(textFieldPlace.getText()));
-                    if (ship != null) {
+				if (!textFieldPlace.getText().equals("")) {                   
+                    try {
+                    	ITransport ship = dock.getDock(listBoxDocks.getSelectedIndex()).removeShip(Integer.parseInt(textFieldPlace.getText()));
                         ship.SetPosition(5, 5, panelTakeShip.getWidth(), panelTakeShip.getHeight());
                         panelTakeShip.setShip(ship);
                         panelTakeShip.repaint();
                         panelDock.repaint();
-                    } else {
-                        panelTakeShip.setShip(null);
-                        panelTakeShip.repaint();
+                        logger.info("Изъят корабль " + ship.getInfo() + " с места " + textFieldPlace.getText());
+                    } catch(DockNotFoundException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Не найдено", JOptionPane.ERROR_MESSAGE);
+                        panelDock.repaint();
+                    } catch(Exception ex) {
+                    	JOptionPane.showMessageDialog(null, ex.getMessage(), "Неизвестная ошибка", JOptionPane.ERROR_MESSAGE);
+                        panelDock.repaint();
                     }
                 }
 			}

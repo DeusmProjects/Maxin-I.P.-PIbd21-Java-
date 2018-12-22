@@ -1,3 +1,4 @@
+package lab7;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,10 +38,10 @@ public class Dock<T extends ITransport> {
         PictureHeight = pictureHeight;
     }
     
-    public int addShip(T ship) {
+    public int addShip(T ship) throws DockOverflowException {
     	if(places.size() == maxCount)
         {
-            return -1;
+            throw new DockOverflowException();
         }
     	
     	for (int i = 0; i < maxCount; i++) {
@@ -59,7 +60,7 @@ public class Dock<T extends ITransport> {
         return -1;
     }
     
-    public T removeShip(int index) {
+    public T removeShip(int index) throws DockNotFoundException {
     	if (index < 0 || index > maxCount) {
             return null;
         }
@@ -68,7 +69,7 @@ public class Dock<T extends ITransport> {
             places.remove(index);
             return ship;
         }
-        return null;
+        throw new DockNotFoundException(index);
     }
     
     private boolean checkFreePlace(int index) {
@@ -100,18 +101,20 @@ public class Dock<T extends ITransport> {
     	}
     }
     
-    public T getShip(int index) {
+    public T getShip(int index) throws DockNotFoundException {
     	if (places.get(index) != null) {
 			return places.get(index);
-		} else {
-			return null;
 		}
+    	throw new DockNotFoundException(index);
     }
     
-    public void setShip(int index, T ship) {
+    public void setShip(int index, T ship) throws DockOccupiedPlaceException {
     	if(checkFreePlace(index)) {
     		places.put(index, ship);
     		places.get(index).SetPosition(5 + index / 5 * placeSizeWidth + 5, index % 5 * placeSizeHeight + 15, PictureWidth, PictureHeight);
+    	} 
+    	else {
+    		throw new DockOccupiedPlaceException(index);
     	}
     }
 }
