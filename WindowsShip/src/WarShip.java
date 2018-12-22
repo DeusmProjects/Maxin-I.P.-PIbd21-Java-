@@ -1,3 +1,4 @@
+package lab7;
 import java.awt.*;
 import java.util.Set;
 

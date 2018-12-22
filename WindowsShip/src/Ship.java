@@ -1,3 +1,4 @@
+package lab7;
 	import java.awt.*;
 
 public abstract class Ship implements ITransport{

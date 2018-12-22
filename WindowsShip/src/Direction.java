@@ -1,3 +1,4 @@
+package lab7;
 
 public enum Direction {
 	Up,
