@@ -38,8 +38,8 @@ class WarShip extends Cruiser {
             case "blue":
             	DopColor = Color.BLUE;
                 break;
-            case "red":
-            	DopColor = Color.RED;
+            case "pink":
+            	DopColor = Color.PINK;
                 break;
             case "green":
             	DopColor = Color.GREEN;
@@ -50,11 +50,11 @@ class WarShip extends Cruiser {
             case "orange":
             	DopColor = Color.ORANGE;
                 break;
-            case "grey":
-            	DopColor = Color.GRAY;
+            case "cyan":
+            	DopColor = Color.CYAN;
                 break;
-            case "white":
-            	DopColor = Color.WHITE;
+            case "magenta":
+            	DopColor = Color.MAGENTA;
                 break;
         }
 
@@ -65,6 +65,20 @@ class WarShip extends Cruiser {
 		setDopColor(dopColor);
 		Flag = flag;
 		Gun = gun;
+	}
+	
+	public WarShip(String info) {
+		super(info);
+		String[] str = info.split(";");
+		if (str.length == 10) {
+			MaxSpeed = Integer.parseInt(str[0]);
+			Weight = Float.parseFloat(str[1]);
+			MainColor = new Color(Integer.parseInt(str[2]), Integer.parseInt(str[3]), Integer.parseInt(str[4]));
+			DopColor = new Color(Integer.parseInt(str[5]), Integer.parseInt(str[6]), Integer.parseInt(str[7]));
+			Flag = Boolean.parseBoolean(str[8]);
+			Gun = Boolean.parseBoolean(str[9]);
+
+		}
 	}
 
 	public void SetPosition(int x, int y, int width, int height) {
@@ -123,6 +137,13 @@ class WarShip extends Cruiser {
             g.fillPolygon(poly2);
             g.drawPolygon(poly2);
         }
+	}
+	
+	@Override
+	public String getInfo() {
+		return MaxSpeed + ";" + Weight + ";" + MainColor.getRed() + ";" + MainColor.getGreen() + ";"
+				+ MainColor.getBlue() + ";" + DopColor.getRed() + ";" + DopColor.getGreen() + ";"
+				+ DopColor.getBlue() + ";" + Flag + ";" + Gun;
 	}
 	
 }

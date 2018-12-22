@@ -89,7 +89,7 @@ public class DialogConfig extends JDialog {
                 try {
                     for (DataFlavor df : e.getTransferable().getTransferDataFlavors()) {
                         if (e.getTransferable().getTransferData(df) == "Крейсер") {
-                            ship = new Cruiser(10, 10, Color.WHITE);
+                            ship = new Cruiser(10, 10, Color.GRAY);
                             shipPanel.setShip(ship);
                             ship.SetPosition(25, 50, shipPanel.getWidth(), shipPanel.getHeight());
                         } else if (e.getTransferable().getTransferData(df) == "Военный корабль") {
@@ -118,19 +118,19 @@ public class DialogConfig extends JDialog {
             }
         });
 
-        JPanel panelYellow = new JPanel();
-        panelYellow.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        panelYellow.setName("cyan");
-        panelYellow.setBackground(Color.CYAN);
-        panelYellow.setBounds(458, 92, 50, 50);
-        this.getContentPane().add(panelYellow);
+        JPanel panelCyne = new JPanel();
+        panelCyne.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        panelCyne.setName("cyan");
+        panelCyne.setBackground(Color.CYAN);
+        panelCyne.setBounds(458, 92, 50, 50);
+        this.getContentPane().add(panelCyne);
 
-        JPanel panelWhite = new JPanel();
-        panelWhite.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        panelWhite.setName("magenta");
-        panelWhite.setBackground(Color.MAGENTA);
-        panelWhite.setBounds(396, 29, 50, 50);
-        this.getContentPane().add(panelWhite);
+        JPanel panelMagenta = new JPanel();
+        panelMagenta.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        panelMagenta.setName("magenta");
+        panelMagenta.setBackground(Color.MAGENTA);
+        panelMagenta.setBounds(396, 29, 50, 50);
+        this.getContentPane().add(panelMagenta);
 
         JPanel panelBlue = new JPanel();
         panelBlue.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -139,12 +139,12 @@ public class DialogConfig extends JDialog {
         panelBlue.setBounds(458, 29, 50, 50);
         this.getContentPane().add(panelBlue);
 
-        JPanel panelRed = new JPanel();
-        panelRed.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        panelRed.setName("pink");
-        panelRed.setBackground(Color.PINK);
-        panelRed.setBounds(396, 92, 50, 50);
-        this.getContentPane().add(panelRed);
+        JPanel panelPink = new JPanel();
+        panelPink.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        panelPink.setName("pink");
+        panelPink.setBackground(Color.PINK);
+        panelPink.setBounds(396, 92, 50, 50);
+        this.getContentPane().add(panelPink);
 
         JPanel panelGreen = new JPanel();
         panelGreen.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -153,12 +153,12 @@ public class DialogConfig extends JDialog {
         panelGreen.setBounds(396, 223, 50, 50);
         this.getContentPane().add(panelGreen);
 
-        JPanel panelGrey = new JPanel();
-        panelGrey.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        panelGrey.setName("yellow");
-        panelGrey.setBackground(Color.YELLOW);
-        panelGrey.setBounds(396, 160, 50, 50);
-        this.getContentPane().add(panelGrey);
+        JPanel panelYellow = new JPanel();
+        panelYellow.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        panelYellow.setName("yellow");
+        panelYellow.setBackground(Color.YELLOW);
+        panelYellow.setBounds(396, 160, 50, 50);
+        this.getContentPane().add(panelYellow);
 
         JPanel panelBlack = new JPanel();
         panelBlack.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -174,17 +174,17 @@ public class DialogConfig extends JDialog {
         panelOrange.setBounds(458, 160, 50, 50);
         this.getContentPane().add(panelOrange);
 
-        panelWhite.addMouseListener(ml);
-        panelWhite.setTransferHandler(new TransferHandler("name"));
+        panelMagenta.addMouseListener(ml);
+        panelMagenta.setTransferHandler(new TransferHandler("name"));
 
         panelBlue.addMouseListener(ml);
         panelBlue.setTransferHandler(new TransferHandler("name"));
 
-        panelRed.addMouseListener(ml);
-        panelRed.setTransferHandler(new TransferHandler("name"));
+        panelPink.addMouseListener(ml);
+        panelPink.setTransferHandler(new TransferHandler("name"));
 
-        panelGrey.addMouseListener(ml);
-        panelGrey.setTransferHandler(new TransferHandler("name"));
+        panelYellow.addMouseListener(ml);
+        panelYellow.setTransferHandler(new TransferHandler("name"));
 
         panelBlack.addMouseListener(ml);
         panelBlack.setTransferHandler(new TransferHandler("name"));
@@ -192,8 +192,8 @@ public class DialogConfig extends JDialog {
         panelOrange.addMouseListener(ml);
         panelOrange.setTransferHandler(new TransferHandler("name"));
 
-        panelYellow.addMouseListener(ml);
-        panelYellow.setTransferHandler(new TransferHandler("name"));
+        panelCyne.addMouseListener(ml);
+        panelCyne.setTransferHandler(new TransferHandler("name"));
 
         panelGreen.addMouseListener(ml);
         panelGreen.setTransferHandler(new TransferHandler("name"));

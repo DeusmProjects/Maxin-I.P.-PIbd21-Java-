@@ -11,6 +11,15 @@ public class Cruiser extends Ship{
         setMainColor(mainColor);
     }
 	
+	public Cruiser(String info) {
+		String[] str = info.split(";");
+		if(str.length == 5) {
+			MaxSpeed = Integer.parseInt(str[0]);
+			Weight = Float.parseFloat(str[1]);
+			MainColor = new Color(Integer.parseInt(str[2]), Integer.parseInt(str[3]), Integer.parseInt(str[4]));
+		}
+	}
+	
 	@Override
 	public void DrawShip(Graphics g) {      
       //корпус
@@ -79,6 +88,12 @@ public class Cruiser extends Ship{
                 }
                 break;
         }
+	}
+	
+	@Override
+	public String getInfo() {
+		return MaxSpeed + ";" + Weight + ";" + MainColor.getRed() + ";" 
+				+ MainColor.getGreen() + ";" + MainColor.getBlue();
 	}
 	
 }

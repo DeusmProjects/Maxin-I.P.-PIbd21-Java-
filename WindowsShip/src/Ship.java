@@ -72,4 +72,6 @@ public abstract class Ship implements ITransport{
     public abstract void DrawShip(Graphics g);
 
     public abstract void MoveTransport(Direction direction);
+    
+    public abstract String getInfo();
 }

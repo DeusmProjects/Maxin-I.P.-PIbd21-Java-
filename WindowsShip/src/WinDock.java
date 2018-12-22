@@ -1,18 +1,12 @@
 import java.awt.*;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JTextField;
+
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class WinDock {
 
@@ -56,6 +50,56 @@ public class WinDock {
 		frame.setBounds(100, 100, 927, 677);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+
+		JMenu menuFile = new JMenu("File");
+		menuBar.add(menuFile);
+
+		JMenuItem menuSave = new JMenuItem("Save");
+		menuSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser filesave = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("txt file", "txt");
+				filesave.setFileFilter(filter);
+				if (filesave.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+					File file = filesave.getSelectedFile();
+					String path = file.getAbsolutePath();
+					if (dock.saveData(path)) {
+						JOptionPane.showMessageDialog(null, "Saved");
+						return;
+					} else {
+						JOptionPane.showMessageDialog(null, "Save failed", "", 0, null);
+					}
+				}
+			}
+		});
+		menuFile.add(menuSave);
+
+		JMenuItem menuLoad = new JMenuItem("Load");
+		menuLoad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("txt file", "txt");
+				fileChooser.setFileFilter(filter);
+				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
+					try {
+						if (dock.loadData(file.getAbsolutePath())) {
+							JOptionPane.showMessageDialog(null, "Loaded");
+						} else {
+							JOptionPane.showMessageDialog(null, "Load failed", "", 0, null);
+						}
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage(), "", 0, null);
+					}
+					panelDock.repaint();
+				}
+			}
+		});
+		menuFile.add(menuLoad);
+
 		
 		panelDock = new PanelDock();
 		panelDock.setBounds(10, 11, 615, 603);
@@ -138,6 +182,7 @@ public class WinDock {
 		});
 		
 	}
+
 	private void RedrawUI() {
 		panelDock.updateUI();
 	}
