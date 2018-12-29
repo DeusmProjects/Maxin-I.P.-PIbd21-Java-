@@ -1,4 +1,4 @@
-package lab7;
+package lab8;
 import java.awt.EventQueue;
 import java.awt.*;
 

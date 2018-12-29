@@ -1,4 +1,4 @@
-package lab7;
+package lab8;
 import java.awt.*;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -6,6 +6,7 @@ import java.util.logging.FileHandler;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+//import java.lang.System.Logger;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -22,8 +23,8 @@ public class WinDock {
 	private JList listBoxDocks;
 	private DefaultListModel model;
 	private final int countDocks = 5;
-	FileHandler fh;	
-	Logger logger = Logger.getLogger(WinDock.class.getName());
+	FileHandler fh;
+	private static Logger logger= Logger.getLogger(WinDock.class.getName());		
 
 	/**
 	 * Launch the application.
@@ -149,6 +150,17 @@ public class WinDock {
 		frame.getContentPane().add(buttonSetShip);
 		
 		
+		JButton buttonSort = new JButton("Сортировать");
+		buttonSort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dock.sort();
+				panelDock.repaint();
+				logger.info("Отсортировано");
+			}
+		});
+		buttonSort.setBounds(720, 350,  150, 50);
+		frame.getContentPane().add(buttonSort);
+		
 		JLabel labelTake = new JLabel("\u0417\u0430\u0431\u0440\u0430\u0442\u044C");
 		labelTake.setBounds(754, 149, 78, 14);
 		frame.getContentPane().add(labelTake);
@@ -180,9 +192,6 @@ public class WinDock {
                         logger.info("Изъят корабль " + ship.getInfo() + " с места " + textFieldPlace.getText());
                     } catch(DockNotFoundException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "Не найдено", JOptionPane.ERROR_MESSAGE);
-                        panelDock.repaint();
-                    } catch(Exception ex) {
-                    	JOptionPane.showMessageDialog(null, ex.getMessage(), "Неизвестная ошибка", JOptionPane.ERROR_MESSAGE);
                         panelDock.repaint();
                     }
                 }

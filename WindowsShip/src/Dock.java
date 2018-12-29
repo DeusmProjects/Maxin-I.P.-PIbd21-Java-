@@ -1,9 +1,10 @@
-package lab7;
+package lab8;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
-public class Dock<T extends ITransport> {
+public class Dock<T extends ITransport> implements Iterable<T>, Comparable<Dock<T>>{
 	private HashMap<Integer, T> places;
 	
 	private int PictureWidth;
@@ -38,11 +39,14 @@ public class Dock<T extends ITransport> {
         PictureHeight = pictureHeight;
     }
     
-    public int addShip(T ship) throws DockOverflowException {
+    public int addShip(T ship) throws Exception {
     	if(places.size() == maxCount)
         {
             throw new DockOverflowException();
         }
+    	if(places.containsValue(ship)) {
+    		throw new DockAlreadyHaveException();
+    	}
     	
     	for (int i = 0; i < maxCount; i++) {
             if (checkFreePlace(i)) {
@@ -78,8 +82,8 @@ public class Dock<T extends ITransport> {
     
     public void draw(Graphics g) {
     	drawMarking(g);
-        for (int i = 0; i < places.keySet().toArray().length; i++) {         
-        	places.get(places.keySet().toArray()[i]).DrawShip(g);
+        for(T ship : places.values()) {
+        	ship.DrawShip(g);
         }
     }
     
@@ -116,5 +120,37 @@ public class Dock<T extends ITransport> {
     	else {
     		throw new DockOccupiedPlaceException(index);
     	}
+    }
+    
+    @Override
+    public Iterator<T> iterator(){
+    	return places.values().iterator();
+    }
+    
+    @Override
+    public int compareTo(Dock<T> other) {
+    	if(places.size() > other.places.size()){
+            return -1;
+        } else if(places.size() < other.places.size()){
+            return 1;
+        } else if(places.size() > 0){
+            Object[] thisKey = places.keySet().toArray();
+            Object[] otherKey = other.places.keySet().toArray();
+            for(int i = 0; i < places.size(); ++i){
+                if(places.get(thisKey[i]) instanceof Cruiser && other.places.get(otherKey[i]) instanceof WarShip){
+                    return 1;
+                }
+                if(places.get(thisKey[i]) instanceof WarShip && other.places.get(otherKey[i]) instanceof Cruiser){
+                    return -1;
+                }
+                if(places.get(thisKey[i]) instanceof Cruiser && other.places.get(otherKey[i]) instanceof Cruiser){
+                    return (((Cruiser) places.get(thisKey[i])).compareTo((Cruiser) other.places.get(thisKey[i])));
+                }
+                if(places.get(thisKey[i]) instanceof WarShip && other.places.get(otherKey[i]) instanceof WarShip){
+                    return (((WarShip) places.get(thisKey[i])).compareTo((WarShip) other.places.get(thisKey[i])));
+                }
+            }
+        }
+        return 0;
     }
 }
