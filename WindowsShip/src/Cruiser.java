@@ -1,7 +1,7 @@
-package lab7;
+package lab8;
 import java.awt.*;
 
-public class Cruiser extends Ship{
+public class Cruiser extends Ship implements Comparable<Cruiser>{
 	protected int shipWidth = 100;
 	protected int shipHeight = 60;
 	
@@ -97,4 +97,53 @@ public class Cruiser extends Ship{
 				+ MainColor.getGreen() + ";" + MainColor.getBlue();
 	}
 	
+	@Override
+	public int compareTo(Cruiser other) {
+		if(other == null) {
+			return 1;
+		}
+		if(MaxSpeed != other.MaxSpeed) {
+			return Integer.compare(MaxSpeed, other.MaxSpeed);
+		}
+		if(Weight != other.Weight) {
+			return Float.compare(Weight, other.Weight);
+		}
+		if(MainColor != other.MainColor) {
+			return Integer.compare(MainColor.getRGB(), other.MainColor.getRGB());
+		}
+		return 0;
+	}
+	
+	public boolean equals(Cruiser other) {
+		if(other == null) {
+			return false;
+		}
+		if(MaxSpeed != other.MaxSpeed) {
+			return false;
+		}
+		if(Weight != other.Weight) {
+			return false;
+		}
+		if(MainColor != other.MainColor) {
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if(other == null) {
+			return false;
+		}
+		if(!(other instanceof Cruiser)) {
+			return false;
+		}
+		Cruiser shipObj = (Cruiser) other;
+		return equals(shipObj);
+	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

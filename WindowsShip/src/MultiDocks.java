@@ -1,8 +1,9 @@
-package lab7;
+package lab8;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MultiDocks {
 	ArrayList<Dock<ITransport>> dockNumbers;
@@ -110,4 +111,8 @@ public class MultiDocks {
             throw e;
         }
     }
+	
+	public void sort() {
+		Collections.sort(dockNumbers);
+	}
 }

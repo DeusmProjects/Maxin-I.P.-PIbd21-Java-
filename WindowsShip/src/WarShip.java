@@ -1,4 +1,4 @@
-package lab7;
+package lab8;
 import java.awt.*;
 import java.util.Set;
 
@@ -147,4 +147,70 @@ class WarShip extends Cruiser {
 				+ DopColor.getBlue() + ";" + Flag + ";" + Gun;
 	}
 	
+	public int compareTo(WarShip other) {
+		if(other == null) {
+			return 1;
+		}
+		if(MaxSpeed != other.MaxSpeed) {
+			return Integer.compare(MaxSpeed, other.MaxSpeed);
+		}
+		if(Weight != other.Weight) {
+			return Float.compare(Weight, other.Weight);
+		}
+		if(MainColor != other.MainColor) {
+			return Integer.compare(MainColor.getRGB(), other.MainColor.getRGB());
+		}
+		if(DopColor != other.DopColor) {
+			return Integer.compare(DopColor.getRGB(), other.DopColor.getRGB());
+		}
+		if(Flag != other.Flag) {
+			return Boolean.compare(Flag, other.Flag);
+		}
+		if(Gun != other.Gun) {
+			return Boolean.compare(Gun, other.Gun);
+		}
+		return 0;
+	}
+	
+	public boolean equals(WarShip other) {
+		if(other == null) {
+			return false;
+		}
+		if(MaxSpeed != other.MaxSpeed) {
+			return false;
+		}
+		if(Weight != other.Weight) {
+			return false;
+		}
+		if(MainColor != other.MainColor) {
+			return false;
+		}
+		if(DopColor != other.DopColor) {
+			return false;
+		}
+		if(Flag != other.Flag) {
+			return false;
+		}
+		if(Gun != other.Gun) {
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if(other == null) {
+			return false;
+		}
+		if(!(other instanceof WarShip)) {
+			return false;
+		}
+		WarShip shipObj = (WarShip) other;
+		return equals(shipObj);
+	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

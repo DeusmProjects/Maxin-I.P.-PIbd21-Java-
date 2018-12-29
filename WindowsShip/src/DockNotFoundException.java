@@ -1,4 +1,4 @@
-package lab7;
+package lab8;
 
 public class DockNotFoundException extends Exception {
 	public DockNotFoundException(int i) {
